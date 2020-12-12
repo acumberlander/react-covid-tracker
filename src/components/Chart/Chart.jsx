@@ -22,16 +22,18 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
 	const lineChart = dailyData.length ? (
 		<Line
 			data={{
-				labels: dailyData.map(({ date }) => date),
+				labels: dailyData
+					.map(({ date }) => new Date(date).toDateString())
+					.reverse(),
 				datasets: [
 					{
-						data: dailyData.map(({ confirmed }) => confirmed),
+						data: dailyData.map(({ confirmed }) => confirmed).reverse(),
 						label: 'Infected',
 						borderColor: '#3333ff',
 						fill: true,
 					},
 					{
-						data: dailyData.map(({ deaths }) => deaths),
+						data: dailyData.map(({ deaths }) => deaths).reverse(),
 						label: 'Deaths',
 						borderColor: 'red',
 						backgroundColor: 'rgba(255, 0, 0, 0.5)',
@@ -41,8 +43,6 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
 			}}
 		/>
 	) : null;
-
-	console.log(confirmed, recovered, deaths);
 
 	const barChart = confirmed ? (
 		<Bar
